@@ -87,7 +87,7 @@
 
     .pie-chart-container {
         width: 100%;
-        max-width: 220px; /* Increased size slightly for center text */
+        max-width: 220px;
         margin: auto;
         position: relative;
     }
@@ -166,9 +166,7 @@
     
     .btn-view-profile {
         font-size: 0.8rem;
-        /* UPDATED: Reduced padding inside the button */
         padding: 6px 14px;
-        /* UPDATED: Added margin outside the button */
         margin-left: 15px;
         border-radius: 8px;
         text-decoration: none;
@@ -219,13 +217,11 @@
             justify-content: space-around;
         }
         .btn-view-profile {
-            /* UPDATED: On mobile, use margin-top instead of margin-left */
             margin-top: 10px;
             margin-left: 0;
             align-self: flex-start; 
         }
     }
-
 </style>
 </head>
 <body>
@@ -236,13 +232,12 @@
     <div class="content-body">
         <div class="left-panel">
             <div class="user-info">
-                <img src="profile_img.jpg" alt="User">
-                <h2>Uday T K</h2>
-                <p>Total Solved: <span id="total-solved-value" class="font-bold text-indigo-600">350</span></p>
+                <img src="profile_img.jpg" alt="User"> <h2>Uday T K</h2>
+                <p>Total Solved: <span id="total-solved-value" class="font-bold text-indigo-600">0</span></p>
                 <div class="totals">
-                    <span class="text-green-600 font-bold">Easy: 150</span> |
-                    <span class="text-yellow-600 font-bold">Medium: 120</span> |
-                    <span class="text-red-600 font-bold">Hard: 80</span>
+                    <span class="text-green-600 font-bold">Easy: <span id="total-easy">0</span></span> |
+                    <span class="text-yellow-600 font-bold">Medium: <span id="total-medium">0</span></span> |
+                    <span class="text-red-600 font-bold">Hard: <span id="total-hard">0</span></span>
                 </div>
             </div>
             <div class="pie-chart-container">
@@ -256,12 +251,12 @@
         </div>
 
         <div class="right-panel">
-            <div class="platform-card">
+            <div class="platform-card" data-easy="120" data-medium="80" data-hard="20">
                 <div class="platform-info">
                     <img src="https://leetcode.com/static/images/LeetCode_logo.png" class="platform-logo" alt="LeetCode">
                     <div>
                         <h3>LeetCode</h3>
-                        <p>Total Solved: <span class="text-blue-600 font-bold">220</span></p>
+                        <p>Total Solved: <span class="platform-total text-blue-600 font-bold">220</span></p>
                     </div>
                 </div>
                 <div class="problem-stats">
@@ -272,12 +267,12 @@
                 <a href="https://leetcode.com/Udaytk" target="_blank" class="btn-view-profile btn-dark">View Profile</a>
             </div>
 
-            <div class="platform-card">
+            <div class="platform-card" data-easy="100" data-medium="60" data-hard="10">
                 <div class="platform-info">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/HackerRank_logo.png" class="platform-logo" alt="HackerRank">
                     <div>
                         <h3>HackerRank</h3>
-                        <p>Total Solved: <span class="text-blue-600 font-bold">170</span></p>
+                        <p>Total Solved: <span class="platform-total text-blue-600 font-bold">170</span></p>
                     </div>
                 </div>
                 <div class="problem-stats">
@@ -288,12 +283,12 @@
                 <a href="https://www.hackerrank.com/Udaytk" target="_blank" class="btn-view-profile btn-success">View Profile</a>
             </div>
 
-            <div class="platform-card">
+            <div class="platform-card" data-easy="70" data-medium="50" data-hard="10">
                 <div class="platform-info">
                     <img src="https://cdn.codechef.com/sites/all/themes/abessive/cc-logo.png" class="platform-logo" alt="CodeChef">
                     <div>
                         <h3>CodeChef</h3>
-                        <p>Total Solved: <span class="text-blue-600 font-bold">130</span></p>
+                        <p>Total Solved: <span class="platform-total text-blue-600 font-bold">130</span></p>
                     </div>
                 </div>
                 <div class="problem-stats">
@@ -309,15 +304,41 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const totalSolved = document.getElementById('total-solved-value').textContent;
+    // --- DYNAMIC DATA CALCULATION ---
+    let totalEasy = 0;
+    let totalMedium = 0;
+    let totalHard = 0;
 
-    // Custom plugin to draw text in the center
+    const platformCards = document.querySelectorAll('.platform-card');
+    platformCards.forEach(card => {
+        const easy = parseInt(card.dataset.easy, 10) || 0;
+        const medium = parseInt(card.dataset.medium, 10) || 0;
+        const hard = parseInt(card.dataset.hard, 10) || 0;
+        
+        totalEasy += easy;
+        totalMedium += medium;
+        totalHard += hard;
+
+        // Optional: Update the 'Total Solved' text on each card dynamically
+        const cardTotal = easy + medium + hard;
+        card.querySelector('.platform-total').textContent = cardTotal;
+    });
+
+    const grandTotal = totalEasy + totalMedium + totalHard;
+
+    // Update the DOM with calculated values
+    document.getElementById('total-solved-value').textContent = grandTotal;
+    document.getElementById('total-easy').textContent = totalEasy;
+    document.getElementById('total-medium').textContent = totalMedium;
+    document.getElementById('total-hard').textContent = totalHard;
+
+    // --- CHART.JS IMPLEMENTATION ---
     const centerTextPlugin = {
         id: 'centerText',
         afterDraw: (chart) => {
-            const { ctx, _active } = chart;
+            const { ctx } = chart;
             const chartArea = chart.chartArea;
-            if (chartArea.width <= 0 || _active.length > 0) return; // Don't draw if chart not ready or a slice is hovered
+            if (chartArea.width <= 0) return;
 
             ctx.save();
             const centerX = (chartArea.left + chartArea.right) / 2;
@@ -325,10 +346,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Main number
             ctx.fillStyle = '#4f46e5'; // Indigo color
-            ctx.font = 'bold 2.5rem sans-serif'; // Larger font for the number
+            ctx.font = 'bold 2.5rem sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(totalSolved, centerX, centerY - 10);
+            ctx.fillText(grandTotal, centerX, centerY - 10);
 
             // "Total Solved" label
             ctx.fillStyle = '#6b7280'; // Gray color
@@ -345,25 +366,23 @@ document.addEventListener('DOMContentLoaded', function () {
         data: {
             labels: ['Easy', 'Medium', 'Hard'],
             datasets: [{
-                data: [150, 120, 80],
+                // Use the dynamically calculated data
+                data: [totalEasy, totalMedium, totalHard],
                 backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
-                borderColor: '#f9fafb', // Match the left panel background
+                borderColor: '#f9fafb',
                 borderWidth: 6,
-                hoverBorderWidth: 6,
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: true,
-            cutout: '75%', // Make the doughnut thinner to accommodate text
+            cutout: '75%',
             plugins: {
                 legend: { display: false },
-                // Disable default datalabels on slices for a cleaner look
                 datalabels: { display: false }
             }
         },
-        // Register the custom plugin AND the datalabels plugin
-        plugins: [centerTextPlugin, ChartDataLabels] 
+        plugins: [centerTextPlugin, ChartDataLabels]
     });
 });
 </script>
