@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coding Profile Dashboard</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<style>
-    /* Base Styles */
-    body, html {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coding Profile Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Base Styles */
+      body,
+      html {
         margin: 0;
         padding: 0;
         height: 100%;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background-color: #f3f4f6; /* Light gray background */
         display: flex;
         justify-content: center;
         align-items: center;
-    }
+      }
 
-    /* Main Container - Acts as the dashboard card */
-    .main-container {
+      /* Main Container - Acts as the dashboard card */
+      .main-container {
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -33,10 +37,10 @@
         border-radius: 20px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         overflow: hidden; /* Important for rounded corners */
-    }
-    
-    /* Header */
-    .header {
+      }
+
+      /* Header */
+      .header {
         text-align: center;
         font-size: 1.75rem;
         font-weight: 600;
@@ -44,18 +48,18 @@
         padding: 15px;
         background: linear-gradient(90deg, #4f46e5, #3b82f6);
         flex-shrink: 0;
-    }
+      }
 
-    /* Main Content Area (2-column layout) */
-    .content-body {
+      /* Main Content Area (2-column layout) */
+      .content-body {
         display: flex;
         flex-grow: 1; /* Allows this section to fill available space */
         padding: 20px;
         gap: 20px;
-    }
+      }
 
-    /* Left Panel: Profile and Overall Stats */
-    .left-panel {
+      /* Left Panel: Profile and Overall Stats */
+      .left-panel {
         flex: 1 1 35%; /* Takes up ~35% of the width */
         display: flex;
         flex-direction: column;
@@ -64,59 +68,70 @@
         padding: 20px;
         background-color: #f9fafb; /* Slightly off-white */
         border-radius: 16px;
-    }
+      }
 
-    .user-info {
+      .user-info {
         text-align: center;
-    }
+      }
 
-    .user-info img {
+      .user-info img {
         width: 100px;
         height: 100px;
         border-radius: 50%;
         object-fit: cover;
-        border: 4px solid #6366F1;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        margin: 0 auto 10px auto; 
+        border: 4px solid #6366f1;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin: 0 auto 10px auto;
         display: block;
-    }
-    
-    .user-info h2 { font-size: 1.5rem; font-weight: bold; margin: 0; }
-    .user-info p { margin: 5px 0; font-size: 1rem; color: #4b5563; }
-    .totals { font-size: 0.9rem; margin-top: 10px; }
+      }
 
-    .pie-chart-container {
+      .user-info h2 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 0;
+      }
+      .user-info p {
+        margin: 5px 0;
+        font-size: 1rem;
+        color: #4b5563;
+      }
+      .totals {
+        font-size: 0.9rem;
+        margin-top: 10px;
+      }
+
+      .pie-chart-container {
         width: 100%;
         max-width: 220px;
         margin: auto;
         position: relative;
-    }
-    
-    .legend {
+      }
+
+      .legend {
         display: flex;
         justify-content: center;
         gap: 15px;
         font-size: 0.8rem;
         width: 100%;
-    }
-    .legend span {
+      }
+      .legend span {
         width: 12px;
         height: 12px;
         display: inline-block;
         border-radius: 3px;
         margin-right: 5px;
         vertical-align: middle;
-    }
+      }
 
-    /* Right Panel: Platform Cards */
-    .right-panel {
+      /* Right Panel: Platform Cards */
+      .right-panel {
         flex: 1 1 65%; /* Takes up ~65% of the width */
         display: flex;
         flex-direction: column;
         gap: 15px;
-    }
+      }
 
-    .platform-card {
+      .platform-card {
         display: flex;
         align-items: center;
         background-color: #fff;
@@ -124,47 +139,70 @@
         border-radius: 12px;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
         transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .platform-card:hover {
+      }
+      .platform-card:hover {
         transform: translateY(-3px);
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    }
+      }
 
-    .platform-info {
+      .platform-info {
         flex-grow: 1;
         display: flex;
         align-items: center;
         gap: 15px;
-    }
-    .platform-logo {
+      }
+      .platform-logo {
         width: 45px;
         height: 45px;
         object-fit: contain;
-    }
-    .platform-info h3 { font-size: 1.1rem; font-weight: 600; margin: 0; }
-    .platform-info p { font-size: 0.9rem; margin: 0; color: #6b7280; }
-    
-    .problem-stats {
+      }
+      .platform-info h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0;
+      }
+      .platform-info p {
+        font-size: 0.9rem;
+        margin: 0;
+        color: #6b7280;
+      }
+
+      .problem-stats {
         display: flex;
         gap: 10px;
         margin-left: auto; /* Pushes stats to the right */
         align-items: center;
-    }
-    .problem-card {
+      }
+      .problem-card {
         background-color: #f3f4f6;
         border-radius: 8px;
         padding: 8px 10px;
         text-align: center;
         min-width: 50px;
-    }
-    .problem-number { font-size: 1rem; font-weight: bold; margin: 0; }
-    .problem-label { font-size: 0.7rem; color: #555; margin: 0; text-transform: uppercase; }
+      }
+      .problem-number {
+        font-size: 1rem;
+        font-weight: bold;
+        margin: 0;
+      }
+      .problem-label {
+        font-size: 0.7rem;
+        color: #555;
+        margin: 0;
+        text-transform: uppercase;
+      }
 
-    .easy { color: #10b981; }
-    .medium { color: #f59e0b; }
-    .hard { color: #ef4444; }
-    
-    .btn-view-profile {
+      .easy {
+        color: #10b981;
+      }
+      .medium {
+        color: #f59e0b;
+      }
+      .hard {
+        color: #ef4444;
+      }
+
+      .btn-view-profile {
         font-size: 0.8rem;
         padding: 6px 14px;
         margin-left: 15px;
@@ -174,178 +212,287 @@
         color: white;
         transition: background-color 0.2s;
         white-space: nowrap; /* Prevents text wrapping */
-    }
-    .btn-dark { background-color: #343a40; }
-    .btn-dark:hover { background-color: #23272b; }
-    .btn-success { background-color: #198754; }
-    .btn-success:hover { background-color: #157347; }
-    .btn-primary { background-color: #0d6efd; }
-    .btn-primary:hover { background-color: #0b5ed7; }
+      }
+      .btn-dark {
+        background-color: #343a40;
+      }
+      .btn-dark:hover {
+        background-color: #23272b;
+      }
+      .btn-success {
+        background-color: #198754;
+      }
+      .btn-success:hover {
+        background-color: #157347;
+      }
+      .btn-primary {
+        background-color: #0d6efd;
+      }
+      .btn-primary:hover {
+        background-color: #0b5ed7;
+      }
 
-    /* Responsive Adjustments */
-    @media (max-width: 820px) {
+      /* Responsive Adjustments */
+      @media (max-width: 820px) {
         .problem-stats {
-            flex-direction: column;
-            gap: 5px;
-            align-items: stretch;
+          flex-direction: column;
+          gap: 5px;
+          align-items: stretch;
         }
         .problem-card {
-            min-width: 40px;
+          min-width: 40px;
         }
-    }
-    
-    /* UPDATED MEDIA QUERY FOR BROWSER SCROLLING */
-    @media (max-width: 768px) {
-        body, html {
-            align-items: flex-start; /* Align to top on mobile */
+      }
+
+      /* UPDATED MEDIA QUERY FOR BROWSER SCROLLING */
+      @media (max-width: 768px) {
+        body,
+        html {
+          align-items: flex-start; /* Align to top on mobile */
         }
 
         /* MODIFIED: Allow the container to grow with its content */
         .main-container {
-            margin: 10px;
-            height: auto; /* Reverted to allow vertical growth */
-            max-height: none; /* Remove the max-height constraint */
+          margin: 10px;
+          height: auto; /* Reverted to allow vertical growth */
+          max-height: none; /* Remove the max-height constraint */
         }
 
         /* MODIFIED: Removed the internal scrollbar property */
         .content-body {
-            flex-direction: column; /* Stack columns */
-            /* overflow-y: auto; was removed */
-            flex-grow: 1;
+          flex-direction: column; /* Stack columns */
+          /* overflow-y: auto; was removed */
+          flex-grow: 1;
         }
 
         .platform-card {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 15px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 15px;
         }
         .problem-stats {
-            flex-direction: row;
-            margin-left: 0;
-            width: 100%;
-            justify-content: space-around;
+          flex-direction: row;
+          margin-left: 0;
+          width: 100%;
+          justify-content: space-around;
         }
         .btn-view-profile {
-            margin-top: 10px;
-            margin-left: 0;
-            align-self: flex-start; 
+          margin-top: 10px;
+          margin-left: 0;
+          align-self: flex-start;
         }
-    }
-</style>
-</head>
-<body>
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="header">Coding Profile Dashboard</div>
 
-<div class="main-container">
-    <div class="header">Coding Profile Dashboard</div>
-
-    <div class="content-body">
+      <div class="content-body">
         <div class="left-panel">
-            <div class="user-info">
-                <img src="https://i.pravatar.cc/150?u=udaytk" alt="User">
-                <h2>Uday T K</h2>
-                <p>Total Solved: <span id="total-solved-value" class="font-bold text-indigo-600">0</span></p>
-                <div class="totals">
-                    <span class="text-green-600 font-bold">Easy: <span id="total-easy">0</span></span> |
-                    <span class="text-yellow-600 font-bold">Medium: <span id="total-medium">0</span></span> |
-                    <span class="text-red-600 font-bold">Hard: <span id="total-hard">0</span></span>
-                </div>
+          <div class="user-info">
+            <img src="profile_img.jpg" alt="User" />
+            <h2>Uday T K</h2>
+            <p>
+              Total Solved:
+              <span id="total-solved-value" class="font-bold text-indigo-600"
+                >0</span
+              >
+            </p>
+            <div class="totals">
+              <span class="text-green-600 font-bold"
+                >Easy: <span id="total-easy">0</span></span
+              >
+              |
+              <span class="text-yellow-600 font-bold"
+                >Medium: <span id="total-medium">0</span></span
+              >
+              |
+              <span class="text-red-600 font-bold"
+                >Hard: <span id="total-hard">0</span></span
+              >
             </div>
-            <div class="pie-chart-container">
-                <canvas id="pieChart"></canvas>
-            </div>
-            <div class="legend">
-                <div><span class="bg-green-500"></span>Easy</div>
-                <div><span class="bg-yellow-500"></span>Medium</div>
-                <div><span class="bg-red-500"></span>Hard</div>
-            </div>
+          </div>
+          <div class="pie-chart-container">
+            <canvas id="pieChart"></canvas>
+          </div>
+          <div class="legend">
+            <div><span class="bg-green-500"></span>Easy</div>
+            <div><span class="bg-yellow-500"></span>Medium</div>
+            <div><span class="bg-red-500"></span>Hard</div>
+          </div>
         </div>
 
         <div class="right-panel">
-            <div class="platform-card" data-easy="120" data-medium="80" data-hard="20">
-                <div class="platform-info">
-                    <img src="https://leetcode.com/static/images/LeetCode_logo.png" class="platform-logo" alt="LeetCode">
-                    <div>
-                        <h3>LeetCode</h3>
-                        <p>Total Solved: <span class="platform-total text-blue-600 font-bold">220</span></p>
-                    </div>
-                </div>
-                <div class="problem-stats">
-                    <div class="problem-card"><p class="problem-number easy">120</p><p class="problem-label">Easy</p></div>
-                    <div class="problem-card"><p class="problem-number medium">80</p><p class="problem-label">Medium</p></div>
-                    <div class="problem-card"><p class="problem-number hard">20</p><p class="problem-label">Hard</p></div>
-                </div>
-                <a href="https://leetcode.com/Udaytk" target="_blank" class="btn-view-profile btn-dark">View Profile</a>
+          <div
+            class="platform-card"
+            data-easy="120"
+            data-medium="80"
+            data-hard="20"
+          >
+            <div class="platform-info">
+              <img
+                src="https://leetcode.com/static/images/LeetCode_logo.png"
+                class="platform-logo"
+                alt="LeetCode"
+              />
+              <div>
+                <h3>LeetCode</h3>
+                <p>
+                  Total Solved:
+                  <span class="platform-total text-blue-600 font-bold"
+                    >220</span
+                  >
+                </p>
+              </div>
             </div>
+            <div class="problem-stats">
+              <div class="problem-card">
+                <p class="problem-number easy">120</p>
+                <p class="problem-label">Easy</p>
+              </div>
+              <div class="problem-card">
+                <p class="problem-number medium">80</p>
+                <p class="problem-label">Medium</p>
+              </div>
+              <div class="problem-card">
+                <p class="problem-number hard">20</p>
+                <p class="problem-label">Hard</p>
+              </div>
+            </div>
+            <a
+              href="https://leetcode.com/Udaytk"
+              target="_blank"
+              class="btn-view-profile btn-dark"
+              >View Profile</a
+            >
+          </div>
 
-            <div class="platform-card" data-easy="100" data-medium="60" data-hard="10">
-                <div class="platform-info">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/HackerRank_logo.png" class="platform-logo" alt="HackerRank">
-                    <div>
-                        <h3>HackerRank</h3>
-                        <p>Total Solved: <span class="platform-total text-blue-600 font-bold">170</span></p>
-                    </div>
-                </div>
-                <div class="problem-stats">
-                    <div class="problem-card"><p class="problem-number easy">100</p><p class="problem-label">Easy</p></div>
-                    <div class="problem-card"><p class="problem-number medium">60</p><p class="problem-label">Medium</p></div>
-                    <div class="problem-card"><p class="problem-number hard">10</p><p class="problem-label">Hard</p></div>
-                </div>
-                <a href="https://www.hackerrank.com/Udaytk" target="_blank" class="btn-view-profile btn-success">View Profile</a>
+          <div
+            class="platform-card"
+            data-easy="100"
+            data-medium="60"
+            data-hard="10"
+          >
+            <div class="platform-info">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/6/65/HackerRank_logo.png"
+                class="platform-logo"
+                alt="HackerRank"
+              />
+              <div>
+                <h3>HackerRank</h3>
+                <p>
+                  Total Solved:
+                  <span class="platform-total text-blue-600 font-bold"
+                    >170</span
+                  >
+                </p>
+              </div>
             </div>
+            <div class="problem-stats">
+              <div class="problem-card">
+                <p class="problem-number easy">100</p>
+                <p class="problem-label">Easy</p>
+              </div>
+              <div class="problem-card">
+                <p class="problem-number medium">60</p>
+                <p class="problem-label">Medium</p>
+              </div>
+              <div class="problem-card">
+                <p class="problem-number hard">10</p>
+                <p class="problem-label">Hard</p>
+              </div>
+            </div>
+            <a
+              href="https://www.hackerrank.com/Udaytk"
+              target="_blank"
+              class="btn-view-profile btn-success"
+              >View Profile</a
+            >
+          </div>
 
-            <div class="platform-card" data-easy="70" data-medium="50" data-hard="10">
-                <div class="platform-info">
-                    <img src="https://cdn.codechef.com/sites/all/themes/abessive/cc-logo.png" class="platform-logo" alt="CodeChef">
-                    <div>
-                        <h3>CodeChef</h3>
-                        <p>Total Solved: <span class="platform-total text-blue-600 font-bold">130</span></p>
-                    </div>
-                </div>
-                <div class="problem-stats">
-                    <div class="problem-card"><p class="problem-number easy">70</p><p class="problem-label">Easy</p></div>
-                    <div class="problem-card"><p class="problem-number medium">50</p><p class="problem-label">Medium</p></div>
-                    <div class="problem-card"><p class="problem-number hard">10</p><p class="problem-label">Hard</p></div>
-                </div>
-                <a href="https://www.codechef.com/users/Udaytk" target="_blank" class="btn-view-profile btn-primary">View Profile</a>
+          <div
+            class="platform-card"
+            data-easy="70"
+            data-medium="50"
+            data-hard="10"
+          >
+            <div class="platform-info">
+              <img
+                src="https://cdn.codechef.com/sites/all/themes/abessive/cc-logo.png"
+                class="platform-logo"
+                alt="CodeChef"
+              />
+              <div>
+                <h3>CodeChef</h3>
+                <p>
+                  Total Solved:
+                  <span class="platform-total text-blue-600 font-bold"
+                    >130</span
+                  >
+                </p>
+              </div>
             </div>
+            <div class="problem-stats">
+              <div class="problem-card">
+                <p class="problem-number easy">70</p>
+                <p class="problem-label">Easy</p>
+              </div>
+              <div class="problem-card">
+                <p class="problem-number medium">50</p>
+                <p class="problem-label">Medium</p>
+              </div>
+              <div class="problem-card">
+                <p class="problem-number hard">10</p>
+                <p class="problem-label">Hard</p>
+              </div>
+            </div>
+            <a
+              href="https://www.codechef.com/users/Udaytk"
+              target="_blank"
+              class="btn-view-profile btn-primary"
+              >View Profile</a
+            >
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // --- DYNAMIC DATA CALCULATION ---
-    let totalEasy = 0;
-    let totalMedium = 0;
-    let totalHard = 0;
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // --- DYNAMIC DATA CALCULATION ---
+        let totalEasy = 0;
+        let totalMedium = 0;
+        let totalHard = 0;
 
-    const platformCards = document.querySelectorAll('.platform-card');
-    platformCards.forEach(card => {
-        const easy = parseInt(card.dataset.easy, 10) || 0;
-        const medium = parseInt(card.dataset.medium, 10) || 0;
-        const hard = parseInt(card.dataset.hard, 10) || 0;
-        
-        totalEasy += easy;
-        totalMedium += medium;
-        totalHard += hard;
+        const platformCards = document.querySelectorAll(".platform-card");
+        platformCards.forEach((card) => {
+          const easy = parseInt(card.dataset.easy, 10) || 0;
+          const medium = parseInt(card.dataset.medium, 10) || 0;
+          const hard = parseInt(card.dataset.hard, 10) || 0;
 
-        // Optional: Update the 'Total Solved' text on each card dynamically
-        const cardTotal = easy + medium + hard;
-        card.querySelector('.platform-total').textContent = cardTotal;
-    });
+          totalEasy += easy;
+          totalMedium += medium;
+          totalHard += hard;
 
-    const grandTotal = totalEasy + totalMedium + totalHard;
+          // Optional: Update the 'Total Solved' text on each card dynamically
+          const cardTotal = easy + medium + hard;
+          card.querySelector(".platform-total").textContent = cardTotal;
+        });
 
-    // Update the DOM with calculated values
-    document.getElementById('total-solved-value').textContent = grandTotal;
-    document.getElementById('total-easy').textContent = totalEasy;
-    document.getElementById('total-medium').textContent = totalMedium;
-    document.getElementById('total-hard').textContent = totalHard;
+        const grandTotal = totalEasy + totalMedium + totalHard;
 
-    // --- CHART.JS IMPLEMENTATION ---
-    const centerTextPlugin = {
-        id: 'centerText',
-        afterDraw: (chart) => {
+        // Update the DOM with calculated values
+        document.getElementById("total-solved-value").textContent = grandTotal;
+        document.getElementById("total-easy").textContent = totalEasy;
+        document.getElementById("total-medium").textContent = totalMedium;
+        document.getElementById("total-hard").textContent = totalHard;
+
+        // --- CHART.JS IMPLEMENTATION ---
+        const centerTextPlugin = {
+          id: "centerText",
+          afterDraw: (chart) => {
             const { ctx } = chart;
             const chartArea = chart.chartArea;
             if (chartArea.width <= 0) return;
@@ -355,47 +502,48 @@ document.addEventListener('DOMContentLoaded', function () {
             const centerY = (chartArea.top + chartArea.bottom) / 2;
 
             // Main number
-            ctx.fillStyle = '#4f46e5'; // Indigo color
-            ctx.font = 'bold 2.5rem sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
+            ctx.fillStyle = "#4f46e5"; // Indigo color
+            ctx.font = "bold 2.5rem sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
             ctx.fillText(grandTotal, centerX, centerY - 10);
 
             // "Total Solved" label
-            ctx.fillStyle = '#6b7280'; // Gray color
-            ctx.font = '1rem sans-serif';
-            ctx.fillText('Total Solved', centerX, centerY + 20);
-            
-            ctx.restore();
-        }
-    };
+            ctx.fillStyle = "#6b7280"; // Gray color
+            ctx.font = "1rem sans-serif";
+            ctx.fillText("Total Solved", centerX, centerY + 20);
 
-    const ctx = document.getElementById('pieChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Easy', 'Medium', 'Hard'],
-            datasets: [{
+            ctx.restore();
+          },
+        };
+
+        const ctx = document.getElementById("pieChart").getContext("2d");
+        new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: ["Easy", "Medium", "Hard"],
+            datasets: [
+              {
                 // Use the dynamically calculated data
                 data: [totalEasy, totalMedium, totalHard],
-                backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
-                borderColor: '#f9fafb',
+                backgroundColor: ["#10b981", "#f59e0b", "#ef4444"],
+                borderColor: "#f9fafb",
                 borderWidth: 6,
-            }]
-        },
-        options: {
+              },
+            ],
+          },
+          options: {
             responsive: true,
             maintainAspectRatio: true,
-            cutout: '75%',
+            cutout: "75%",
             plugins: {
-                legend: { display: false },
-                datalabels: { display: false }
-            }
-        },
-        plugins: [centerTextPlugin, ChartDataLabels]
-    });
-});
-</script>
-
-</body>
+              legend: { display: false },
+              datalabels: { display: false },
+            },
+          },
+          plugins: [centerTextPlugin, ChartDataLabels],
+        });
+      });
+    </script>
+  </body>
 </html>
