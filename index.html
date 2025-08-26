@@ -193,18 +193,27 @@
             min-width: 40px;
         }
     }
-
+    
+    /* UPDATED MEDIA QUERY FOR BROWSER SCROLLING */
     @media (max-width: 768px) {
         body, html {
             align-items: flex-start; /* Align to top on mobile */
         }
-        .content-body {
-            flex-direction: column; /* Stack columns on smaller screens */
-        }
+
+        /* MODIFIED: Allow the container to grow with its content */
         .main-container {
             margin: 10px;
-            height: auto;
+            height: auto; /* Reverted to allow vertical growth */
+            max-height: none; /* Remove the max-height constraint */
         }
+
+        /* MODIFIED: Removed the internal scrollbar property */
+        .content-body {
+            flex-direction: column; /* Stack columns */
+            /* overflow-y: auto; was removed */
+            flex-grow: 1;
+        }
+
         .platform-card {
             flex-direction: column;
             align-items: flex-start;
@@ -232,7 +241,8 @@
     <div class="content-body">
         <div class="left-panel">
             <div class="user-info">
-                <img src="profile_img.jpg" alt="User"> <h2>Uday T K</h2>
+                <img src="https://i.pravatar.cc/150?u=udaytk" alt="User">
+                <h2>Uday T K</h2>
                 <p>Total Solved: <span id="total-solved-value" class="font-bold text-indigo-600">0</span></p>
                 <div class="totals">
                     <span class="text-green-600 font-bold">Easy: <span id="total-easy">0</span></span> |
